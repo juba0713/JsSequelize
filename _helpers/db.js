@@ -15,6 +15,7 @@ async function initialize(){
     const sequelize = new Sequelize(database, user, password, {dialect: 'mysql'});
 
     db.User = require('../users/user.model')(sequelize)
+    db.Product = require("../productcs/product.model")(sequelize)
 
     await sequelize.sync({alter : true});
 

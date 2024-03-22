@@ -6,10 +6,10 @@ const Role = require('_helpers/role');
 const userService = require('./user.service');
 
 router.get('/', getAll); 
-// router.get('/:id', getById); 
+router.get('/:id', getById); 
 router.post('/', createSchema, create); 
-// router.put('/:id', updateSchema, update); 
-// router.delete('/:id', _delete); 
+router.put('/:id', updateSchema, update); 
+router.delete('/:id', _delete); 
 
 module.exports = router;
 
@@ -19,10 +19,28 @@ function getAll(req, res, next){
         .catch(next)
 }
 
+function getById(req, res, next){
+    userService.getById(req.params.id)
+        .then(user => res.json(user))
+        .catch(next)
+}
+
 function create(req, res, next){
     userService.create(req.body)
         .then(() => res.json({message : 'User created'}))
         .catch(next);
+}
+
+function update(req, res, next){
+    userService.update(req.params.id, req.body)
+        .then(() => res.json({message : "User Updated"}))
+        .catch(next)
+}
+
+function _delete(req, res, next){
+    userService.delete(req.params.id)
+        .then(() => res.json({message : "User Deleted"}))
+        .catch(next)
 }
 
 function createSchema(req, res, next){
